@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Data Science — Академия Знаний</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: #F7FAFF;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1920px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        @media (min-width: 1920px) {
+            .container {
+                padding: 0 162px;
+            }
+        }
+
+        /* Кнопки */
+        .btn-primary {
+            background: #3B82F6;
+            color: #F0F4FF;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            border: none;
+            font-family: 'Lato', sans-serif;
+            font-weight: 500;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), #3B82F6;
+            transform: translateY(-2px);
+            box-shadow: 0px 5px 15px rgba(59, 130, 246, 0.3);
+        }
+        .btn-secondary {
+            background: #F0F4FF;
+            color: #1A1F2E;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            border: none;
+            font-family: 'Lato', sans-serif;
+            font-weight: 500;
+        }
+        .btn-secondary:hover {
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), #F0F4FF;
+            transform: translateY(-2px);
+        }
+        .btn-help {
+            background: rgba(59, 130, 246, 0.15);
+            color: #3B82F6;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            border: none;
+            font-family: 'Lato', sans-serif;
+            font-weight: 500;
+            padding: 24px 0;
+            border-radius: 16px;
+        }
+        .btn-help:hover {
+            background: rgba(59, 130, 246, 0.25);
+            transform: translateX(5px);
+        }
+
+        /* Навигация */
+        .nav-link {
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+        .nav-link:hover {
+            color: #3B82F6 !important;
+        }
+        .nav-link.active {
+            color: #3B82F6 !important;
+            font-weight: 600;
+        }
+
+        /* Мобильное меню */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 30px;
+            cursor: pointer;
+            padding: 10px;
+        }
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px 5%;
+        }
+        .mobile-nav.open {
+            display: flex;
+        }
+
+        /* Блоки курса */
+        .info-block {
+            background: #F7FAFF;
+            box-shadow: 0px 10px 10px rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            outline: 5px solid #F0F4FF;
+            padding: 35px 45px;
+        }
+        .module-item {
+            padding: 30px;
+            background: #F7FAFF;
+            border-radius: 16px;
+            outline: 5px solid #F0F4FF;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            transition: all 0.3s ease;
+        }
+        .module-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0px 5px 15px rgba(59, 130, 246, 0.15);
+        }
+        .module-number {
+            width: 50px;
+            height: 50px;
+            background: rgba(59, 130, 246, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            color: #3B82F6;
+        }
+        .check-icon {
+            width: 25px;
+            height: 25px;
+            background: #10B981;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        .check-icon::after {
+            content: "✓";
+            color: white;
+            font-size: 14px;
+        }
+
+        /* Правая панель */
+        .price-card {
+            background: #F7FAFF;
+            box-shadow: 0px 10px 10px rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            outline: 5px solid #F0F4FF;
+            padding: 35px 26px;
+        }
+        .help-card {
+            background: rgba(59, 130, 246, 0.15);
+            border-radius: 16px;
+            padding: 35px 26px;
+        }
+
+        /* Сетки */
+        .course-layout {
+            display: flex;
+            gap: 62px;
+            flex-wrap: wrap;
+        }
+        .course-main {
+            flex: 2;
+            min-width: 300px;
+        }
+        .course-sidebar {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        @media (max-width: 1200px) {
+            .course-layout {
+                flex-direction: column;
+            }
+        }
+
+        /* Футер */
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr;
+            gap: 40px;
+        }
+        @media (max-width: 992px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+        }
+        .footer-link {
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+        .footer-link:hover {
+            color: #F7FAFF !important;
+        }
+        .back-link {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .back-link:hover {
+            transform: translateX(-5px);
+            color: #3B82F6;
+        }
+    </style>
+</head>
+<body>
+    <!-- ШАПКА САЙТА -->
+    <div style="background: #F7FAFF; box-shadow: 0 4px 20px rgba(0,0,0,0.02); position: sticky; top: 0; z-index: 1000;">
+        <div class="container" style="padding-top: 20px; padding-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <a href="index.html" style="display: flex; align-items: center; gap: 15px; text-decoration: none;">
+                <svg width="40" height="40" viewBox="0 0 50 50" fill="none">
+                    <path d="M47.1562 39.9688C47.5533 39.6595 47.8699 39.259 48.0789 38.8012C48.288 38.3434 48.3834 37.8419 48.357 37.3393C48.3306 36.8367 48.1832 36.3479 47.9274 35.9145C47.6715 35.4811 47.3148 35.1159 46.8875 34.85L46.875 16.6562L43.75 18.75V34.8438C43.327 35.1091 42.9738 35.4719 42.7199 35.9018C42.466 36.3318 42.3188 36.8163 42.2906 37.3148C42.2625 37.8133 42.3542 38.3113 42.5581 38.767C42.762 39.2228 43.0721 39.6231 43.4625 39.9344L42.2812 41.5031C41.2307 42.8397 40.6487 44.4845 40.625 46.1844V50.0031H43.1719C43.7837 50.0031 44.378 49.799 44.8608 49.4232C45.3436 49.0473 45.6873 48.5212 45.8375 47.9281L46.8719 43.7531V50.0031H49.9969V46.2219C49.9697 44.5139 49.3836 42.8619 48.3281 41.5187L47.1562 39.9688ZM25 0L0 12.5L25 28.125L50 12.5L25 0Z" fill="#3B82F6"/>
+                    <path d="M25 31.25L9.375 20.8438V26.1875C9.375 29.0312 18.5625 37.5 25 37.5C31.4375 37.5 40.625 29.0312 40.625 26.1875V20.8438L25 31.25Z" fill="#3B82F6"/>
+                </svg>
+                <div style="color: #3B82F6; font-size: 18px; font-weight: 500;">Академия Знаний</div>
+            </a>
+            
+            <div style="display: flex; align-items: center; gap: 40px;">
+                <div style="display: flex; gap: 40px;">
+        <a href="page_two.html" class="nav-link" style="color: #1A1F2E; font-size: 18px; text-decoration: none;">Курсы</a>
+        <a href="knowledge.html" class="nav-link" style="color: #1A1F2E; font-size: 18px; text-decoration: none;">База знаний</a>
+        <a href="#" class="nav-link" style="color: #1A1F2E; font-size: 18px; text-decoration: none;">Подбор курса</a>
+    </div>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <div class="btn-secondary" style="padding: 12px 24px; border-radius: 16px; font-size: 16px;">Войти</div>
+                    <div class="btn-primary" style="padding: 12px 24px; border-radius: 16px; font-size: 16px;">Начать обучение</div>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-btn" style="display: none;">☰</button>
+        </div>
+        
+        <div class="mobile-nav" style="display: none;">
+            <a href="page_two.html" class="nav-link" style="font-size: 20px; padding: 10px 0; text-decoration: none; display: block;">Курсы</a>
+            <div class="nav-link" style="font-size: 20px; padding: 10px 0;">База знаний</div>
+            <div class="nav-link" style="font-size: 20px; padding: 10px 0;">Подбор курса</div>
+            <div class="btn-secondary" style="padding: 12px; text-align: center; border-radius: 16px;">Войти</div>
+            <div class="btn-primary" style="padding: 12px; text-align: center; border-radius: 16px;">Начать обучение</div>
+        </div>
+    </div>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ СТРАНИЦЫ КУРСА -->
+    <div class="container" style="padding-top: 50px; padding-bottom: 100px;">
+        
+        <!-- Хлебные крошки / Назад -->
+        <a href="page_two.html" class="back-link" style="text-decoration: none; color: rgba(26,31,46,0.5); font-size: 24px; margin-bottom: 30px; display: inline-block;">
+            ← Назад к курсам
+        </a>
+        
+        <!-- Заголовок курса -->
+        <div style="text-align: center; margin-bottom: 40px;">
+            <div style="color: #3B82F6; font-size: 24px; margin-bottom: 10px;">IT и программирование</div>
+            <h1 style="color: #3B82F6; font-size: 60px; font-family: 'Playfair Display', serif; font-weight: 400;">Data Science: от основ до машинного обучения</h1>
+            <p style="color: rgba(26,31,46,0.5); font-size: 24px; max-width: 990px; margin: 20px auto;">Комплексная программа обучения аналитике данных и машинному обучению. Вы изучите Python, библиотеки для анализа данных, статистику, алгоритмы машинного обучения и нейронные сети.</p>
+            
+            <!-- Характеристики -->
+            <div style="display: flex; justify-content: center; gap: 50px; flex-wrap: wrap; margin-top: 30px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <svg width="32" height="32" viewBox="0 0 32 32"><path d="M7.76699 28L9.93366 18.6333L2.66699 12.3333L12.267 11.5L16.0003 2.66666L19.7337 11.5L29.3337 12.3333L22.067 18.6333L24.2337 28L16.0003 23.0333L7.76699 28Z" fill="#FDC700"/></svg>
+                    <span style="color: #3B82F6; font-size: 24px; font-weight: 500;">4.9 (1240 студентов)</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <svg width="32" height="32" viewBox="0 0 32 32"><path d="M16.0003 2.66666C8.66699 2.66666 2.66699 8.66666 2.66699 16C2.66699 23.3333 8.66699 29.3333 16.0003 29.3333C23.3337 29.3333 29.3337 23.3333 29.3337 16C29.3337 8.66666 23.3337 2.66666 16.0003 2.66666ZM16.0003 26.6667C10.1203 26.6667 5.33366 21.88 5.33366 16C5.33366 10.12 10.1203 5.33332 16.0003 5.33332C21.8803 5.33332 26.667 10.12 26.667 16C26.667 21.88 21.8803 26.6667 16.0003 26.6667ZM16.667 9.33332H14.667V17.3333L21.6003 21.6L22.667 19.8667L16.667 16.2667V9.33332Z" fill="#3B82F6"/></svg>
+                    <span style="color: #3B82F6; font-size: 24px; font-weight: 500;">320 часов</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <svg width="32" height="32" viewBox="0 0 32 32"><path d="M16 13.3333C16.6128 13.3333 17.2197 13.2126 17.7859 12.9781C18.352 12.7436 18.8665 12.3998 19.2998 11.9665C19.7332 11.5332 20.0769 11.0187 20.3114 10.4525C20.546 9.88634 20.6667 9.2795 20.6667 8.66667C20.6667 8.05383 20.546 7.447 20.3114 6.88081C20.0769 6.31462 19.7332 5.80018 19.2998 5.36684C18.8665 4.9335 18.352 4.58975 17.7859 4.35523C17.2197 4.12071 16.6128 4 16 4C14.7623 4 13.5753 4.49167 12.7002 5.36684C11.825 6.24201 11.3333 7.42899 11.3333 8.66667C11.3333 9.90434 11.825 11.0913 12.7002 11.9665C13.5753 12.8417 14.7623 13.3333 16 13.3333ZM4 27.2V28H28V27.2C28 24.2133 28 22.72 27.4187 21.5787C26.9073 20.5752 26.0915 19.7593 25.088 19.248C23.9467 18.6667 22.4533 18.6667 19.4667 18.6667H12.5333C9.54667 18.6667 8.05333 18.6667 6.912 19.248C5.90851 19.7593 5.09265 20.5752 4.58133 21.5787C4 22.72 4 24.2133 4 27.2Z" stroke="#3B82F6" stroke-width="2.5"/></svg>
+                    <span style="color: #3B82F6; font-size: 24px; font-weight: 500;">Иванов А.С.</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Основной контент: 2 колонки -->
+        <div class="course-layout">
+            <!-- Левая колонка - основная информация -->
+            <div class="course-main">
+                <!-- Преподаватель -->
+                <div class="info-block" style="margin-bottom: 30px;">
+                    <h2 style="font-size: 36px; font-family: 'Playfair Display', serif; margin-bottom: 30px;">Преподаватель</h2>
+                    <div style="display: flex; gap: 30px; flex-wrap: wrap; align-items: flex-start;">
+                        <img src="https://placehold.co/165x165/3B82F6/white?text=Фото" style="width: 165px; height: 165px; border-radius: 50%; object-fit: cover;">
+                        <div style="flex: 1;">
+                            <h3 style="font-size: 28px; font-family: 'Playfair Display', serif;">Иванов Александр Сергеевич</h3>
+                            <p style="color: #3B82F6; font-size: 24px; margin: 10px 0;">практикующий Data Scientist</p>
+                            <p style="color: rgba(26,31,46,0.5); font-size: 20px;">Более 10 лет опыта в анализе данных и машинном обучении. Работал в ведущих IT-компаниях.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Программа курса -->
+                <div class="info-block" style="margin-bottom: 30px;">
+                    <h2 style="font-size: 36px; font-family: 'Playfair Display', serif; margin-bottom: 30px;">Программа курса</h2>
+                    
+                    <div class="module-item" style="margin-bottom: 20px;">
+                        <div class="module-number">1</div>
+                        <div>
+                            <h3 style="font-size: 28px; font-family: 'Playfair Display', serif;">Модуль 1: Введение в Data Science</h3>
+                            <div style="margin-top: 15px;">
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Основы программирования на Python</p>
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Работа с Jupyter Notebook</p>
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Библиотеки NumPy и Pandas</p>
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Визуализация данных с Matplotlib и Seaborn</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="module-item" style="margin-bottom: 20px;">
+                        <div class="module-number">2</div>
+                        <div>
+                            <h3 style="font-size: 28px; font-family: 'Playfair Display', serif;">Модуль 2: Математика для Data Science</h3>
+                            <div style="margin-top: 15px;">
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Линейная алгебра</p>
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Математический анализ</p>
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Теория вероятностей</p>
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Статистика и статистические тесты</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="module-item" style="margin-bottom: 20px;">
+                        <div class="module-number">3</div>
+                        <div>
+                            <h3 style="font-size: 28px; font-family: 'Playfair Display', serif;">Модуль 3: Машинное обучение</h3>
+                            <div style="margin-top: 15px;">
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Supervised Learning: регрессия и классификация</p>
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Unsupervised Learning: кластеризация</p>
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Работа с библиотекой Scikit-learn</p>
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Оценка качества моделей</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="module-item" style="margin-bottom: 20px;">
+                        <div class="module-number">4</div>
+                        <div>
+                            <h3 style="font-size: 28px; font-family: 'Playfair Display', serif;">Модуль 4: Глубокое обучение</h3>
+                            <div style="margin-top: 15px;">
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Нейронные сети и их архитектуры</p>
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Работа с TensorFlow и Keras</p>
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Компьютерное зрение</p>
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Обработка естественного языка (NLP)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="module-item">
+                        <div class="module-number">5</div>
+                        <div>
+                            <h3 style="font-size: 28px; font-family: 'Playfair Display', serif;">Модуль 5: Практические проекты</h3>
+                            <div style="margin-top: 15px;">
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Анализ реальных датасетов</p>
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Построение предсказательных моделей</p>
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Деплой ML-моделей</p>
+                                <p style="margin: 8px 0;"><span class="check-icon"></span> Итоговый проект</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Что вы получите -->
+                <div class="info-block">
+                    <h2 style="font-size: 36px; font-family: 'Playfair Display', serif; margin-bottom: 30px;">Что вы получите</h2>
+                    <div>
+                        <p style="margin: 12px 0;"><span class="check-icon"></span> Доступ к платформе на время обучения и 1 год после</p>
+                        <p style="margin: 12px 0;"><span class="check-icon"></span> Библиотека материалов и датасетов</p>
+                        <p style="margin: 12px 0;"><span class="check-icon"></span> Личный куратор и поддержка</p>
+                        <p style="margin: 12px 0;"><span class="check-icon"></span> Помощь в трудоустройстве</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Правая колонка - цена и действия -->
+            <div class="course-sidebar">
+                <div class="price-card" style="margin-bottom: 30px;">
+                    <img src="img/машинное обучение.png" style="width: 100%; border-radius: 16px; margin-bottom: 30px;">
+                    <div>
+                        <div style="font-size: 36px; font-weight: 500;">65 000 ₽</div>
+                        <div style="color: rgba(26,31,46,0.5); font-size: 20px; margin-bottom: 30px;">или 5 417 ₽ / мес</div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px;">
+                        <button class="btn-primary" style="padding: 24px 0; border-radius: 16px; font-size: 24px;">Записаться на курс</button>
+                        <button class="btn-secondary" style="padding: 24px 0; border-radius: 16px; font-size: 24px;">Задать вопрос</button>
+                    </div>
+                    <div style="border-top: 3px solid #F0F4FF; margin: 30px 0;"></div>
+                    
+                    <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+                        <svg width="50" height="50" viewBox="0 0 50 50"><path d="M25.0003 45.8333C33.042 45.8333 39.5837 39.2916 39.5837 31.25C39.5837 28.5208 38.8128 25.9583 37.5003 23.7708V6.24996C37.5003 5.10413 36.5628 4.16663 35.417 4.16663H14.5837C13.4378 4.16663 12.5003 5.10413 12.5003 6.24996V23.7708C11.1878 25.9583 10.417 28.5208 10.417 31.25C10.417 39.2916 16.9587 45.8333 25.0003 45.8333ZM25.0003 41.6666C19.2503 41.6666 14.5837 37 14.5837 31.25C14.5837 25.5 19.2503 20.8333 25.0003 20.8333C30.7503 20.8333 35.417 25.5 35.417 31.25C35.417 37 30.7503 41.6666 25.0003 41.6666ZM33.3337 19.2916C31.5003 18.0208 29.3753 17.1666 27.0837 16.8333V8.33329H33.3337V19.2916ZM22.917 8.33329V16.8333C20.6253 17.1666 18.5003 18.0208 16.667 19.2916V8.33329H22.917Z" fill="#3B82F6"/></svg>
+                        <div>
+                            <div style="font-size: 20px; font-weight: 500;">Документ</div>
+                            <div style="color: rgba(26,31,46,0.5); font-size: 18px;">Диплом о профессиональной переподготовке государственного образца</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+                        <svg width="50" height="50" viewBox="0 0 50 50"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.8337 6.25C22.2225 6.25 23.6114 6.77778 25.0003 7.83333C26.3892 6.77778 27.7781 6.25 29.167 6.25H41.667C42.7721 6.25 43.8319 6.68899 44.6133 7.47039C45.3947 8.25179 45.8337 9.3116 45.8337 10.4167V37.5C45.8337 38.6051 45.3947 39.6649 44.6133 40.4463C43.8319 41.2277 42.7721 41.6667 41.667 41.6667H27.0837C27.0837 42.8167 26.1462 43.75 25.0003 43.75C23.8545 43.75 22.917 42.8125 22.917 41.6667H8.33366C7.22859 41.6667 6.16878 41.2277 5.38738 40.4463C4.60598 39.6649 4.16699 38.6051 4.16699 37.5V10.4167C4.16699 9.3116 4.60598 8.25179 5.38738 7.47039C6.16878 6.68899 7.22859 6.25 8.33366 6.25H20.8337ZM20.8337 10.4167H8.33366V37.5H22.917V12.5C22.917 11.3542 21.9795 10.4167 20.8337 10.4167ZM41.667 10.4167H29.167C28.0212 10.4167 27.0837 11.3542 27.0837 12.5V37.5H41.667V10.4167Z" fill="#3B82F6"/></svg>
+                        <div>
+                            <div style="font-size: 20px; font-weight: 500;">Формат</div>
+                            <div style="color: rgba(26,31,46,0.5); font-size: 18px;">Полностью дистанционно</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px;">
+                        <svg width="50" height="51" viewBox="0 0 50 51"><path d="M15.625 22.8502C14.8045 22.8502 14.0433 23.0045 13.3379 23.3112C12.6261 23.6206 12.0004 24.0451 11.46 24.5856C10.9207 25.1248 10.4963 25.7571 10.1865 26.485C9.87765 27.2108 9.71573 27.9755 9.7002 28.7809C9.70093 29.5991 9.85521 30.3584 10.1611 31.0621C10.4706 31.774 10.8951 32.3996 11.4355 32.9401C11.976 33.4805 12.6017 33.905 13.3135 34.2145C14.0193 34.5213 14.7896 34.683 15.6279 34.6989C16.4303 34.6985 17.1919 34.5456 17.915 34.2379C18.642 33.9285 19.2643 33.5045 19.7861 32.9674C20.3126 32.4255 20.7395 31.7976 21.0664 31.0817C21.3876 30.3782 21.5498 29.6106 21.5498 28.775C21.5498 27.9716 21.396 27.209 21.0879 26.485C20.7785 25.758 20.3545 25.1357 19.8174 24.6139C19.2765 24.0885 18.6413 23.6617 17.9092 23.3346C17.1864 23.0117 16.4261 22.8502 15.625 22.8502ZM34.375 4.10022C33.5545 4.10022 32.7933 4.2545 32.0879 4.56116C31.3761 4.87064 30.7504 5.29513 30.21 5.83557C29.6707 6.37481 29.2463 7.00714 28.9365 7.73499C28.6277 8.46083 28.4657 9.22552 28.4502 10.0309C28.4509 10.8491 28.6052 11.6084 28.9111 12.3121C29.2206 13.024 29.6451 13.6496 30.1855 14.1901C30.726 14.7305 31.3517 15.155 32.0635 15.4645C32.7693 15.7713 33.5396 15.933 34.3779 15.9489C35.1803 15.9485 35.9419 15.7956 36.665 15.4879C37.392 15.1785 38.0143 14.7545 38.5361 14.2174C39.0626 13.6755 39.4895 13.0476 39.8164 12.3317C40.1376 11.6282 40.2998 10.8606 40.2998 10.025C40.2998 9.22159 40.146 8.45898 39.8379 7.73499C39.5285 7.00799 39.1045 6.38571 38.5674 5.86389C38.0265 5.33848 37.3913 4.91172 36.6592 4.58459C35.9364 4.26167 35.1761 4.10022 34.375 4.10022ZM44.0752 10.025C44.0752 11.557 43.7297 13.0148 43.04 14.3942C42.4263 15.6217 41.5903 16.6629 40.5371 17.5182C41.4434 18.0217 42.2712 18.6174 43.0186 19.3073C43.8858 20.1078 44.636 21.009 45.2695 22.0094C45.9048 23.0125 46.3824 24.083 46.7002 25.2203C47.0174 26.3554 47.1836 27.54 47.2002 28.7711L47.2041 29.1002H43.4248V28.775C43.4248 27.5316 43.189 26.3626 42.7188 25.2653C42.2468 24.164 41.5951 23.207 40.7637 22.3912C39.9298 21.5731 38.9699 20.9274 37.8828 20.4547C36.8023 19.985 35.6332 19.7411 34.3721 19.7252C33.1297 19.7256 31.9617 19.9613 30.8652 20.4313C29.764 20.9032 28.807 21.5549 27.9912 22.3864C27.1731 23.2202 26.5273 24.1801 26.0547 25.2672C25.5848 26.348 25.341 27.5175 25.3252 28.7789C25.3246 30.3095 24.9792 31.7659 24.29 33.1442C23.6763 34.3717 22.8403 35.4129 21.7871 36.2682C22.6934 36.7717 23.5212 37.3674 24.2686 38.0573C25.1358 38.8578 25.886 39.759 26.5195 40.7594C27.1548 41.7625 27.6324 42.833 27.9502 43.9703C28.2674 45.1054 28.4336 46.29 28.4502 47.5211L28.4541 47.8502H24.6748V47.525C24.6748 46.2816 24.439 45.1126 23.9688 44.0153C23.4968 42.914 22.8451 41.9571 22.0137 41.1412C21.1798 40.3231 20.2199 39.6774 19.1328 39.2047C18.0523 38.735 16.8832 38.4911 15.6221 38.4752C14.3797 38.4756 13.2117 38.7113 12.1152 39.1813C11.014 39.6532 10.057 40.3049 9.24121 41.1364C8.42306 41.9702 7.77734 42.9301 7.30469 44.0172C6.83482 45.098 6.59098 46.2675 6.5752 47.5289L6.57129 47.8502H2.7998V47.525C2.7998 46.3068 2.96722 45.1283 3.30176 43.9908C3.63539 42.8565 4.11107 41.788 4.72852 40.7867C5.34628 39.785 6.08911 38.8828 6.95703 38.0817C7.70747 37.389 8.54461 36.7849 9.4668 36.2682C8.42646 35.4127 7.59785 34.3711 6.98438 33.1442C6.29525 31.7659 5.94167 30.3096 5.9248 28.7789V28.775C5.9248 27.4469 6.17736 26.1907 6.68359 25.0094C7.18813 23.8321 7.88758 22.8032 8.78125 21.9264C9.67248 21.052 10.6987 20.3629 11.8574 19.859C13.0226 19.3524 14.2786 19.0916 15.6211 19.0748H15.625C17.157 19.0748 18.6147 19.4203 19.9941 20.11C21.2212 20.7235 22.263 21.5583 23.1182 22.611C23.7125 21.5404 24.4427 20.5726 25.3076 19.7076C26.1734 18.8419 27.1421 18.1109 28.2139 17.5162C27.1748 16.6612 26.3473 15.62 25.7344 14.3942C25.0453 13.0159 24.6917 11.5596 24.6748 10.0289V10.025C24.6748 8.69693 24.9274 7.44066 25.4336 6.2594C25.9381 5.08214 26.6376 4.0532 27.5312 3.17639C28.4225 2.30203 29.4487 1.61286 30.6074 1.10901C31.7726 0.602422 33.0286 0.341611 34.3711 0.324829H34.375L34.8701 0.336548C36.0163 0.391825 37.1072 0.640719 38.1406 1.08362C39.3179 1.58816 40.3468 2.2876 41.2236 3.18127C42.098 4.07251 42.7872 5.0987 43.291 6.25745C43.7976 7.4226 44.0584 8.6786 44.0752 10.0211V10.025Z" fill="#3B82F6" stroke="#3B82F6" stroke-width="0.65"/></svg>
+                        <div>
+                            <div style="font-size: 20px; font-weight: 500;">Студентов</div>
+                            <div style="color: rgba(26,31,46,0.5); font-size: 18px;">1240</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Блок помощи -->
+                <div class="help-card">
+                    <h3 style="font-size: 28px; font-family: 'Playfair Display', serif; margin-bottom: 20px;">Нужна помощь с выбором?</h3>
+                    <p style="color: rgba(26,31,46,0.5); font-size: 20px; margin-bottom: 30px;">Наши специалисты помогут подобрать подходящую программу</p>
+                    <div class="btn-help" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <span>Подобрать программу</span>
+                        <svg width="15" height="30" viewBox="0 0 15 30"><path fill-rule="evenodd" d="M12.6962 15.8888L5.62492 22.9601L3.85742 21.1926L10.0449 15.005L3.85742 8.81755L5.62492 7.05005L12.6962 14.1213C12.9305 14.3557 13.0622 14.6736 13.0622 15.005C13.0622 15.3365 12.9305 15.6544 12.6962 15.8888Z" fill="#3B82F6"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ФУТЕР -->
+    <div style="background: #1A1F2E; padding: 60px 0;">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                        <svg width="40" height="40" viewBox="0 0 50 50">
+                            <path d="M47.1562 39.9688C47.5533 39.6595 47.8699 39.259 48.0789 38.8012C48.288 38.3434 48.3834 37.8419 48.357 37.3393C48.3306 36.8367 48.1832 36.3479 47.9274 35.9145C47.6715 35.4811 47.3148 35.1159 46.8875 34.85L46.875 16.6562L43.75 18.75V34.8438C43.327 35.1091 42.9738 35.4719 42.7199 35.9018C42.466 36.3318 42.3188 36.8163 42.2906 37.3148C42.2625 37.8133 42.3542 38.3113 42.5581 38.767C42.762 39.2228 43.0721 39.6231 43.4625 39.9344L42.2812 41.5031C41.2307 42.8397 40.6487 44.4845 40.625 46.1844V50.0031H43.1719C43.7837 50.0031 44.378 49.799 44.8608 49.4232C45.3436 49.0473 45.6873 48.5212 45.8375 47.9281L46.8719 43.7531V50.0031H49.9969V46.2219C49.9697 44.5139 49.3836 42.8619 48.3281 41.5187L47.1562 39.9688ZM25 0L0 12.5L25 28.125L50 12.5L25 0Z" fill="#F7FAFF"/>
+                            <path d="M25 31.25L9.375 20.8438V26.1875C9.375 29.0312 18.5625 37.5 25 37.5C31.4375 37.5 40.625 29.0312 40.625 26.1875V20.8438L25 31.25Z" fill="#F7FAFF"/>
+                        </svg>
+                        <div style="color:#F7FAFF; font-size: 20px;">Академия Знаний</div>
+                    </div>
+                    <p style="color:#F0F4FF;">Современная образовательная платформа с государственной аккредитацией. Получайте качественное образование 24/7 в удобном формате.</p>
+                </div>
+                <div>
+                    <h4 style="color:#F7FAFF; font-size: 24px; margin-bottom: 20px;">Навигация</h4>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <a href="catalog.html" class="footer-link" style="color: rgba(240,244,255,0.75); text-decoration: none;">Каталог курсов</a>
+                        <div class="footer-link" style="color: rgba(240,244,255,0.75);">База знаний</div>
+                        <div class="footer-link" style="color: rgba(240,244,255,0.75);">Подбор программы</div>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="color:#F7FAFF; font-size: 24px; margin-bottom: 20px;">Контакты</h4>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="footer-link" style="color: rgba(240,244,255,0.75);">📞 +7 (946) 123-45-67</div>
+                        <div class="footer-link" style="color: rgba(240,244,255,0.75);">✉️ AcademyofKnowledge@mail.ru</div>
+                        <div class="footer-link" style="color: rgba(240,244,255,0.75);">📍 г. Самара, Московское шоссе, 125А</div>
+                    </div>
+                </div>
+            </div>
+            <div style="border-top: 1px solid #F0F4FF; margin: 40px 0 20px;"></div>
+            <div style="color: #F0F4FF; text-align: center;">© 2026 Академия Знаний. Все права защищены.</div>
+        </div>
+    </div>
+
+    <script>
+        // Мобильное меню
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileNav = document.querySelector('.mobile-nav');
+        
+        function checkMobileMenu() {
+            if (window.innerWidth <= 992) {
+                if(menuBtn) menuBtn.style.display = 'block';
+            } else {
+                if(menuBtn) menuBtn.style.display = 'none';
+                if(mobileNav) mobileNav.classList.remove('open');
+            }
+        }
+        
+        if (menuBtn && mobileNav) {
+            checkMobileMenu();
+            menuBtn.addEventListener('click', () => {
+                mobileNav.classList.toggle('open');
+            });
+            window.addEventListener('resize', checkMobileMenu);
+        }
+        
+        // Кнопки действий
+        document.querySelectorAll('.btn-primary, .btn-secondary, .btn-help').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const text = this.innerText.trim() || 'Подобрать программу';
+                alert(`Функция: ${text}\n\nВ реальном проекте здесь будет открытие формы или модального окна.`);
+            });
+        });
+    </script>
+</body>
+</html>

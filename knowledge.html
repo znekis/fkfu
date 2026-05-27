@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>База знаний — Академия Знаний</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: #F7FAFF;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ========== ШАПКА ========== */
+        .header {
+            background: #F7FAFF;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+        .logo-text {
+            color: #3B82F6;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #1A1F2E;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #3B82F6;
+        }
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .btn-login {
+            background: #F7FAFF;
+            color: #3B82F6;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-login:hover {
+            background: linear-gradient(0deg, rgba(59,130,246,0.2), rgba(59,130,246,0.2)), #F7FAFF;
+        }
+        .btn-start {
+            background: #3B82F6;
+            color: #F0F4FF;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-start:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+         /* Кнопки */
+        .btn-primary {
+            background: #3B82F6;
+            color: #F0F4FF;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            border: none;
+            font-family: 'Lato', sans-serif;
+            font-weight: 500;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(0deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%), #3B82F6;
+            box-shadow: 0px 4px 12px rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #F7FAFF;
+            color: #3B82F6;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            border: none;
+            font-family: 'Lato', sans-serif;
+            font-weight: 500;
+        }
+        .btn-secondary:hover {
+            background: linear-gradient(0deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.2) 100%), #F7FAFF;
+        }
+
+
+        /* ========== ЗАГОЛОВОК ========== */
+        .page-title {
+            text-align: center;
+            padding: 60px 0 30px;
+        }
+        .page-title h1 {
+            color: #3B82F6;
+            font-size: 60px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+        }
+        .page-title p {
+            color: #3B82F6;
+            font-size: 24px;
+            margin-top: 10px;
+        }
+
+        /* ========== КАРТОЧКИ СТАТЕЙ ========== */
+        .section-title {
+            text-align: left;
+            color: #1A1F2E;
+            font-size: 40px;
+            font-family: 'Playfair Display', serif;
+            margin: 60px 0 40px;
+            font-weight: 500;
+        }
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        .article-card {
+            background: #F7FAFF;
+            border-radius: 20px;
+            outline: 5px solid #F0F4FF;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .article-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px rgba(59,130,246,0.15);
+        }
+        .article-image {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .article-card:hover .article-image {
+            transform: scale(1.03);
+        }
+        .article-content {
+            padding: 25px;
+        }
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .article-tag {
+            background: rgba(59,130,246,0.2);
+            padding: 5px 15px;
+            border-radius: 16px;
+            color: #3B82F6;
+            font-size: 14px;
+        }
+        .article-time {
+            color: rgba(0,0,0,0.5);
+            font-size: 14px;
+        }
+        .article-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1A1F2E;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+        .article-desc {
+            color: rgba(0,0,0,0.5);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        .article-link {
+            color: #3B82F6;
+            font-size: 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .article-link:hover {
+            gap: 10px;
+        }
+
+        /* ========== ГЛОССАРИЙ ========== */
+        .glossary {
+            margin: 60px 0;
+        }
+        .glossary-item {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 30px;
+            align-items: flex-start;
+        }
+        .glossary-line {
+            width: 75px;
+            border-top: 5px solid #3B82F6;
+            margin-top: 15px;
+        }
+        .glossary-content {
+            flex: 1;
+        }
+        .glossary-term {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .glossary-term h3 {
+            font-size: 24px;
+            color: #1A1F2E;
+        }
+        .glossary-category {
+            background: #F0F4FF;
+            padding: 5px 15px;
+            border-radius: 16px;
+            color: rgba(0,0,0,0.5);
+            font-size: 14px;
+        }
+        .glossary-desc {
+            color: rgba(0,0,0,0.5);
+            font-size: 18px;
+            line-height: 1.4;
+        }
+        .show-all {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .show-all a {
+            color: #3B82F6;
+            font-size: 20px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .show-all a:hover {
+            gap: 15px;
+        }
+
+        /* ========== ВЕБИНАРЫ ========== */
+        .webinars-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        .webinar-card {
+            background: #F7FAFF;
+            border-radius: 20px;
+            outline: 5px solid #F0F4FF;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(59,130,246,0.1);
+        }
+        .webinar-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px rgba(59,130,246,0.2);
+            outline-color: #3B82F6;
+        }
+        .webinar-cover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            height: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .play-btn {
+            width: 80px;
+            height: 80px;
+            background: #F7FAFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #3B82F6;
+            transition: 0.3s;
+        }
+        .webinar-card:hover .play-btn {
+            transform: scale(1.1);
+        }
+        .webinar-content {
+            padding: 25px;
+        }
+        .webinar-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1A1F2E;
+            margin-bottom: 10px;
+        }
+        .webinar-meta {
+            color: rgba(0,0,0,0.5);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .webinar-views {
+            color: rgba(0,0,0,0.5);
+            font-size: 14px;
+        }
+
+        /* ========== ФУТЕР ========== */
+        .footer {
+            background: #1A1F2E;
+            padding: 60px 0;
+            margin-top: 60px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr;
+            gap: 40px;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .footer-logo-text {
+            color: #F7FAFF;
+            font-size: 20px;
+            font-weight: 500;
+        }
+        .footer-desc {
+            color: #F0F4FF;
+            line-height: 1.5;
+        }
+        .footer-title {
+            color: #F7FAFF;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .footer-link {
+            color: rgba(240,244,255,0.75);
+            margin: 12px 0;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .footer-link:hover {
+            color: #F7FAFF;
+        }
+        .footer-contact {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(240,244,255,0.75);
+            margin: 12px 0;
+        }
+        .footer-bottom {
+            border-top: 1px solid #F0F4FF;
+            margin-top: 40px;
+            padding-top: 20px;
+            text-align: center;
+            color: #F0F4FF;
+        }
+
+        /* ========== АДАПТИВ ========== */
+        @media (max-width: 1100px) {
+            .articles-grid, .webinars-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 900px) {
+            .nav-links, .auth-buttons {
+                display: none;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .glossary-item {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .glossary-line {
+                width: 100%;
+            }
+        }
+        @media (max-width: 700px) {
+            .articles-grid, .webinars-grid {
+                grid-template-columns: 1fr;
+            }
+            .page-title h1 {
+                font-size: 40px;
+            }
+            .page-title p {
+                font-size: 18px;
+            }
+            .section-title {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+     <!-- ШАПКА САЙТА -->
+    <div style="background: #F7FAFF; box-shadow: 0 4px 20px rgba(0,0,0,0.02); position: sticky; top: 0; z-index: 1000;">
+        <div class="container" style="padding-top: 20px; padding-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <svg width="40" height="40" viewBox="0 0 50 50" fill="none">
+                    <path d="M47.1562 39.9688C47.5533 39.6595 47.8699 39.259 48.0789 38.8012C48.288 38.3434 48.3834 37.8419 48.357 37.3393C48.3306 36.8367 48.1832 36.3479 47.9274 35.9145C47.6715 35.4811 47.3148 35.1159 46.8875 34.85L46.875 16.6562L43.75 18.75V34.8438C43.327 35.1091 42.9738 35.4719 42.7199 35.9018C42.466 36.3318 42.3188 36.8163 42.2906 37.3148C42.2625 37.8133 42.3542 38.3113 42.5581 38.767C42.762 39.2228 43.0721 39.6231 43.4625 39.9344L42.2812 41.5031C41.2307 42.8397 40.6487 44.4845 40.625 46.1844V50.0031H43.1719C43.7837 50.0031 44.378 49.799 44.8608 49.4232C45.3436 49.0473 45.6873 48.5212 45.8375 47.9281L46.8719 43.7531V50.0031H49.9969V46.2219C49.9697 44.5139 49.3836 42.8619 48.3281 41.5187L47.1562 39.9688ZM25 0L0 12.5L25 28.125L50 12.5L25 0Z" fill="#3B82F6"/>
+                    <path d="M25 31.25L9.375 20.8438V26.1875C9.375 29.0312 18.5625 37.5 25 37.5C31.4375 37.5 40.625 29.0312 40.625 26.1875V20.8438L25 31.25Z" fill="#3B82F6"/>
+                </svg>
+                <a href="main.html" style="text-decoration: none;">
+    <div style="color: #3B82F6; font-size: 18px; font-weight: 500;">Академия Знаний</div>
+</a>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 40px;">
+                <div style="display: flex; gap: 40px;">
+        <a href="page_two.html" class="nav-link" style="color: #1A1F2E; font-size: 18px; text-decoration: none;">Курсы</a>
+        <a href="knowledge.html" class="nav-link" style="color: #1A1F2E; font-size: 18px; text-decoration: none;">База знаний</a>
+        <a href="selection.html" class="nav-link" style="color: #1A1F2E; font-size: 18px; text-decoration: none;">Подбор курса</a>
+    </div>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <div class="btn-secondary" style="padding: 12px 24px; border-radius: 16px; font-size: 16px;">Войти</div>
+                    <div class="btn-primary" style="padding: 12px 24px; border-radius: 16px; font-size: 16px;">Начать обучение</div>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-btn" style="display: none;">☰</button>
+        </div>
+        
+        <div class="mobile-nav" style="display: none;">
+            <div class="nav-link" style="font-size: 20px; padding: 10px 0;">Курсы</div>
+            <div class="nav-link" style="font-size: 20px; padding: 10px 0;">База знаний</div>
+            <div class="nav-link" style="font-size: 20px; padding: 10px 0;">Подбор курса</div>
+            <div class="btn-secondary" style="padding: 12px; text-align: center; border-radius: 16px;">Войти</div>
+            <div class="btn-primary" style="padding: 12px; text-align: center; border-radius: 16px;">Начать обучение</div>
+        </div>
+    </div>
+
+    <!-- ЗАГОЛОВОК СТРАНИЦЫ -->
+    <div class="container">
+        <div class="page-title">
+            <h1>База знаний</h1>
+            <p>Полезные материалы для успешного обучения и развития карьеры</p>
+        </div>
+
+        <!-- СТАТЬИ И ГАЙДЫ -->
+        <h2 class="section-title">Статьи и гайды</h2>
+        <div class="articles-grid">
+            
+            <div class="article-card">
+                <img class="article-image" src="img/гайд как поступить.png" alt="Гайд по поступлению">
+                <div class="article-content">
+                    <div class="article-header">
+                        <span class="article-tag">Гайды</span>
+                        <span class="article-time">5 минут</span>
+                    </div>
+                    <div class="article-title">Как поступить на курс: пошаговая инструкция</div>
+                    <div class="article-desc">Подробное руководство по записи на курс, оплате и началу обучения на платформе.</div>
+                    <div class="article-link">Читать →</div>
+                </div>
+            </div>
+
+            <div class="article-card">
+                <img class="article-image" src="img/профессия будущего.png" alt="Data Scientist">
+                <div class="article-content">
+                    <div class="article-header">
+                        <span class="article-tag">Обзоры профессий</span>
+                        <span class="article-time">8 минут</span>
+                    </div>
+                    <div class="article-title">Data Scientist: профессия будущего</div>
+                    <div class="article-desc">Что делает Data Scientist, сколько зарабатывает и какие навыки нужны для старта.</div>
+                    <div class="article-link">Читать →</div>
+                </div>
+            </div>
+
+            <div class="article-card">
+                <img class="article-image" src="img/фронтенд разработчик.png" alt="Frontend разработчик">
+                <div class="article-content">
+                    <div class="article-header">
+                        <span class="article-tag">Обзоры профессий</span>
+                        <span class="article-time">10 минут</span>
+                    </div>
+                    <div class="article-title">Frontend-разработчик: путь от новичка до профи</div>
+                    <div class="article-desc">Как стать Frontend-разработчиком, какие технологии изучать и где искать работу.</div>
+                    <div class="article-link">Читать →</div>
+                </div>
+            </div>
+
+            <div class="article-card">
+                <img class="article-image" src="img/эффективно учиться.png" alt="Советы по обучению">
+                <div class="article-content">
+                    <div class="article-header">
+                        <span class="article-tag">Гайды</span>
+                        <span class="article-time">6 минут</span>
+                    </div>
+                    <div class="article-title">Как эффективно учиться онлайн: 10 советов</div>
+                    <div class="article-desc">Проверенные методики для эффективного онлайн-обучения и достижения результатов.</div>
+                    <div class="article-link">Читать →</div>
+                </div>
+            </div>
+
+            <div class="article-card">
+                <img class="article-image" src="img/диджтл маркетолог.png" alt="Digital маркетолог">
+                <div class="article-content">
+                    <div class="article-header">
+                        <span class="article-tag">Обзоры профессий</span>
+                        <span class="article-time">7 минут</span>
+                    </div>
+                    <div class="article-title">Digital-маркетолог: навыки и карьера</div>
+                    <div class="article-desc">Что входит в работу digital-маркетолога и как начать карьеру в маркетинге.</div>
+                    <div class="article-link">Читать →</div>
+                </div>
+            </div>
+
+            <div class="article-card">
+                <img class="article-image" src="img/графический дизайнер.png" alt="Графический дизайнер">
+                <div class="article-content">
+                    <div class="article-header">
+                        <span class="article-tag">Обзоры профессий</span>
+                        <span class="article-time">9 минут</span>
+                    </div>
+                    <div class="article-title">Графический дизайнер: творчество и технологии</div>
+                    <div class="article-desc">Обзор профессии графического дизайнера, необходимых инструментов и навыков.</div>
+                    <div class="article-link">Читать →</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ГЛОССАРИЙ ТЕРМИНОВ -->
+        <h2 class="section-title">Глоссарий терминов</h2>
+        <div class="glossary">
+            <div class="glossary-item">
+                <div class="glossary-line"></div>
+                <div class="glossary-content">
+                    <div class="glossary-term">
+                        <h3>API</h3>
+                        <span class="glossary-category">IT</span>
+                    </div>
+                    <div class="glossary-desc">Application Programming Interface — набор методов и инструментов для взаимодействия программ.</div>
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-line"></div>
+                <div class="glossary-content">
+                    <div class="glossary-term">
+                        <h3>Machine Learning</h3>
+                        <span class="glossary-category">Data Science</span>
+                    </div>
+                    <div class="glossary-desc">Машинное обучение — раздел искусственного интеллекта, изучающий методы построения алгоритмов, способных обучаться.</div>
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-line"></div>
+                <div class="glossary-content">
+                    <div class="glossary-term">
+                        <h3>UX/UI Design</h3>
+                        <span class="glossary-category">Дизайн</span>
+                    </div>
+                    <div class="glossary-desc">User Experience/User Interface Design — проектирование пользовательского опыта и интерфейсов.</div>
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="glossary-line"></div>
+                <div class="glossary-content">
+                    <div class="glossary-term">
+                        <h3>SEO</h3>
+                        <span class="glossary-category">Маркетинг</span>
+                    </div>
+                    <div class="glossary-desc">Search Engine Optimization — поисковая оптимизация сайтов для улучшения видимости в поисковых системах.</div>
+                </div>
+            </div>
+
+            <div class="show-all">
+                <a href="#">Показать все термины →</a>
+            </div>
+        </div>
+
+        <!-- АРХИВ ВЕБИНАРОВ С ЗАГЛУШКАМИ -->
+<h2 class="section-title">Архив вебинаров</h2>
+<div class="webinars-grid">
+    
+    <div class="webinar-card">
+        <div class="webinar-cover">
+            <img src="img/Введение.png" alt="Введение в Data Science" class="webinar-image">
+            <div class="play-btn">▶</div>
+        </div>
+        <div class="webinar-content">
+            <div class="webinar-title">Введение в Data Science</div>
+            <div class="webinar-meta">Александр Иванов • 20 марта 2026</div>
+            <div class="webinar-views">2400 просмотров</div>
+        </div>
+    </div>
+
+    <div class="webinar-card">
+        <div class="webinar-cover">
+            <img src="img/тренды.png" alt="Тренды веб-разработки" class="webinar-image">
+            <div class="play-btn">▶</div>
+        </div>
+        <div class="webinar-content">
+            <div class="webinar-title">Тренды веб-разработки в 2026</div>
+            <div class="webinar-meta">Дмитрий Козлов • 15 марта 2026</div>
+            <div class="webinar-views">3100 просмотров</div>
+        </div>
+    </div>
+
+    <div class="webinar-card">
+        <div class="webinar-cover">
+            <img src="img/карьера в айти.png" alt="Как начать карьеру в IT" class="webinar-image">
+            <div class="play-btn">▶</div>
+        </div>
+        <div class="webinar-content">
+            <div class="webinar-title">Как начать карьеру в IT</div>
+            <div class="webinar-meta">Елена Новикова • 10 марта 2026</div>
+            <div class="webinar-views">4200 просмотров</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- ФУТЕР -->
+    <div class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">
+                        <svg width="40" height="40" viewBox="0 0 50 50" fill="none">
+                            <path d="M47.1562 39.9688C47.5533 39.6595 47.8699 39.259 48.0789 38.8012C48.288 38.3434 48.3834 37.8419 48.357 37.3393C48.3306 36.8367 48.1832 36.3479 47.9274 35.9145C47.6715 35.4811 47.3148 35.1159 46.8875 34.85L46.875 16.6562L43.75 18.75V34.8438C43.327 35.1091 42.9738 35.4719 42.7199 35.9018C42.466 36.3318 42.3188 36.8163 42.2906 37.3148C42.2625 37.8133 42.3542 38.3113 42.5581 38.767C42.762 39.2228 43.0721 39.6231 43.4625 39.9344L42.2812 41.5031C41.2307 42.8397 40.6487 44.4845 40.625 46.1844V50.0031H43.1719C43.7837 50.0031 44.378 49.799 44.8608 49.4232C45.3436 49.0473 45.6873 48.5212 45.8375 47.9281L46.8719 43.7531V50.0031H49.9969V46.2219C49.9697 44.5139 49.3836 42.8619 48.3281 41.5187L47.1562 39.9688ZM25 0L0 12.5L25 28.125L50 12.5L25 0Z" fill="#F7FAFF"/>
+                            <path d="M25 31.25L9.375 20.8438V26.1875C9.375 29.0312 18.5625 37.5 25 37.5C31.4375 37.5 40.625 29.0312 40.625 26.1875V20.8438L25 31.25Z" fill="#F7FAFF"/>
+                        </svg>
+                        <span class="footer-logo-text">Академия Знаний</span>
+                    </div>
+                    <p class="footer-desc">Современная образовательная платформа с государственной аккредитацией. Получайте качественное образование 24/7 в удобном формате.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Навигация</h4>
+                    <div class="footer-link">Каталог курсов</div>
+                    <div class="footer-link">База знаний</div>
+                    <div class="footer-link">Подбор программы</div>
+                </div>
+                <div>
+                    <h4 class="footer-title">Контакты</h4>
+                    <div class="footer-contact">📞 +7 (946) 123-45-67</div>
+                    <div class="footer-contact">✉️ AcademyofKnowledge@mail.ru</div>
+                    <div class="footer-contact">📍 г. Самара, Московское шоссе, 125А</div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                © 2026 Академия Знаний. Все права защищены.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Мобильное меню
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        if (mobileBtn) {
+            mobileBtn.addEventListener('click', () => {
+                alert('Мобильное меню — в реальном проекте здесь будет выпадающее меню');
+            });
+        }
+
+        // Клики по карточкам
+        document.querySelectorAll('.article-card, .webinar-card').forEach(card => {
+            card.addEventListener('click', () => {
+                alert('В реальном проекте здесь откроется полная статья или вебинар');
+            });
+        });
+
+        // Кнопка "Показать все термины"
+        document.querySelector('.show-all a')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('В реальном проекте здесь откроется полный список терминов');
+        });
+    </script>
+</body>
+</html>

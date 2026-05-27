@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подбор программы — Академия Знаний</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: #F7FAFF;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+      /* Кнопки */
+        .btn-primary {
+            background: #3B82F6;
+            color: #F0F4FF;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            border: none;
+            font-family: 'Lato', sans-serif;
+            font-weight: 500;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(0deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%), #3B82F6;
+            box-shadow: 0px 4px 12px rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #F7FAFF;
+            color: #3B82F6;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            border: none;
+            font-family: 'Lato', sans-serif;
+            font-weight: 500;
+        }
+        .btn-secondary:hover {
+            background: linear-gradient(0deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.2) 100%), #F7FAFF;
+        }
+
+        /* ========== ЗАГОЛОВОК ========== */
+        .page-title {
+            text-align: center;
+            padding: 60px 0 30px;
+        }
+        .page-title h1 {
+            color: #3B82F6;
+            font-size: 60px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+        }
+
+        /* ========== РЕЗУЛЬТАТЫ ПОДБОРА ========== */
+        .results-header {
+            margin-bottom: 30px;
+        }
+        .results-header h2 {
+            font-size: 40px;
+            font-family: 'Playfair Display', serif;
+            color: #1A1F2E;
+            font-weight: 400;
+        }
+        .results-count {
+            font-size: 24px;
+            color: #1A1F2E;
+            margin-top: 10px;
+        }
+        .results-count span {
+            text-decoration: underline;
+        }
+
+        /* ========== КАРТОЧКИ КУРСОВ ========== */
+        .courses-list {
+            display: flex;
+            flex-direction: column;
+            gap: 45px;
+            margin: 40px 0;
+        }
+        .course-card {
+            background: #F7FAFF;
+            border-radius: 20px;
+            outline: 5px solid #F0F4FF;
+            padding: 40px;
+            transition: all 0.3s ease;
+        }
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px rgba(59,130,246,0.1);
+        }
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .course-title {
+            font-size: 28px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            color: #1A1F2E;
+        }
+        .match-badge {
+            background: rgba(59,130,246,0.2);
+            padding: 8px 20px;
+            border-radius: 16px;
+            color: #3B82F6;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .course-format {
+            color: rgba(0,0,0,0.5);
+            font-size: 22px;
+            margin-bottom: 25px;
+        }
+        .course-details {
+            display: flex;
+            gap: 60px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .detail-label {
+            color: rgba(0,0,0,0.5);
+            font-size: 18px;
+        }
+        .detail-value {
+            font-size: 22px;
+            color: #1A1F2E;
+        }
+        .course-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .btn-detail {
+            background: #3B82F6;
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 16px;
+            font-size: 24px;
+            font-family: 'Playfair Display', serif;
+            cursor: pointer;
+            transition: 0.3s;
+            flex: 2;
+            text-align: center;
+        }
+        .btn-detail:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        .btn-enroll {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 16px;
+            font-size: 24px;
+            font-family: 'Playfair Display', serif;
+            cursor: pointer;
+            transition: 0.3s;
+            flex: 1;
+            text-align: center;
+        }
+        .btn-enroll:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        /* ========== БЛОК КОНСУЛЬТАЦИИ ========== */
+        .consult-block {
+            background: rgba(59,130,246,0.15);
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            margin: 40px 0;
+        }
+        .consult-block h3 {
+            font-size: 40px;
+            font-family: 'Playfair Display', serif;
+            color: #1A1F2E;
+            font-weight: 400;
+            margin-bottom: 15px;
+        }
+        .consult-block p {
+            font-size: 24px;
+            color: #1A1F2E;
+            margin-bottom: 40px;
+        }
+        .consult-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .btn-consult {
+            background: #3B82F6;
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            border-radius: 16px;
+            font-size: 24px;
+            font-family: 'Playfair Display', serif;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-consult:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        .btn-catalog {
+            background: #F7FAFF;
+            color: #3B82F6;
+            border: 2px solid #3B82F6;
+            padding: 18px 50px;
+            border-radius: 16px;
+            font-size: 24px;
+            font-family: 'Playfair Display', serif;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-catalog:hover {
+            background: rgba(59,130,246,0.1);
+            transform: translateY(-2px);
+        }
+
+        /* ========== КНОПКА НАЗАД ========== */
+        .btn-restart {
+            display: inline-block;
+            background: #F0F4FF;
+            color: #1A1F2E;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 16px;
+            font-size: 22px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 20px 0 40px;
+        }
+        .btn-restart:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        /* ========== ФУТЕР ========== */
+        .footer {
+            background: #1A1F2E;
+            padding: 60px 0;
+            margin-top: 60px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr;
+            gap: 40px;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .footer-logo-text {
+            color: #F7FAFF;
+            font-size: 20px;
+            font-weight: 500;
+        }
+        .footer-desc {
+            color: #F0F4FF;
+            line-height: 1.5;
+        }
+        .footer-title {
+            color: #F7FAFF;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .footer-link {
+            color: rgba(240,244,255,0.75);
+            margin: 12px 0;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .footer-link:hover {
+            color: #F7FAFF;
+        }
+        .footer-contact {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(240,244,255,0.75);
+            margin: 12px 0;
+        }
+        .footer-bottom {
+            border-top: 1px solid #F0F4FF;
+            margin-top: 40px;
+            padding-top: 20px;
+            text-align: center;
+            color: #F0F4FF;
+        }
+
+        /* ========== АДАПТИВ ========== */
+        @media (max-width: 1100px) {
+            .course-buttons {
+                flex-direction: column;
+            }
+            .btn-detail, .btn-enroll {
+                width: 100%;
+            }
+            .course-details {
+                gap: 30px;
+            }
+        }
+        @media (max-width: 900px) {
+            .nav-links, .auth-buttons {
+                display: none;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .page-title h1 {
+                font-size: 40px;
+            }
+            .course-title {
+                font-size: 22px;
+            }
+            .match-badge {
+                font-size: 14px;
+            }
+        }
+        @media (max-width: 700px) {
+            .consult-buttons {
+                flex-direction: column;
+            }
+            .course-details {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ШАПКА -->
+    <div style="background: #F7FAFF; box-shadow: 0 4px 20px rgba(0,0,0,0.02); position: sticky; top: 0; z-index: 1000;">
+        <div class="container" style="padding-top: 20px; padding-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <svg width="40" height="40" viewBox="0 0 50 50" fill="none">
+                    <path d="M47.1562 39.9688C47.5533 39.6595 47.8699 39.259 48.0789 38.8012C48.288 38.3434 48.3834 37.8419 48.357 37.3393C48.3306 36.8367 48.1832 36.3479 47.9274 35.9145C47.6715 35.4811 47.3148 35.1159 46.8875 34.85L46.875 16.6562L43.75 18.75V34.8438C43.327 35.1091 42.9738 35.4719 42.7199 35.9018C42.466 36.3318 42.3188 36.8163 42.2906 37.3148C42.2625 37.8133 42.3542 38.3113 42.5581 38.767C42.762 39.2228 43.0721 39.6231 43.4625 39.9344L42.2812 41.5031C41.2307 42.8397 40.6487 44.4845 40.625 46.1844V50.0031H43.1719C43.7837 50.0031 44.378 49.799 44.8608 49.4232C45.3436 49.0473 45.6873 48.5212 45.8375 47.9281L46.8719 43.7531V50.0031H49.9969V46.2219C49.9697 44.5139 49.3836 42.8619 48.3281 41.5187L47.1562 39.9688ZM25 0L0 12.5L25 28.125L50 12.5L25 0Z" fill="#3B82F6"/>
+                    <path d="M25 31.25L9.375 20.8438V26.1875C9.375 29.0312 18.5625 37.5 25 37.5C31.4375 37.5 40.625 29.0312 40.625 26.1875V20.8438L25 31.25Z" fill="#3B82F6"/>
+                </svg>
+               <a href="main.html" style="text-decoration: none;">
+    <div style="color: #3B82F6; font-size: 18px; font-weight: 500;">Академия Знаний</div>
+</a>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 40px;">
+                <div style="display: flex; gap: 40px;">
+        <a href="page_two.html" class="nav-link" style="color: #1A1F2E; font-size: 18px; text-decoration: none;">Курсы</a>
+        <a href="knowledge.html" class="nav-link" style="color: #1A1F2E; font-size: 18px; text-decoration: none;">База знаний</a>
+        <a href="selection.html" class="nav-link" style="color: #1A1F2E; font-size: 18px; text-decoration: none;">Подбор курса</a>
+    </div>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <div class="btn-secondary" style="padding: 12px 24px; border-radius: 16px; font-size: 16px;">Войти</div>
+                    <div class="btn-primary" style="padding: 12px 24px; border-radius: 16px; font-size: 16px;">Начать обучение</div>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-btn" style="display: none;">☰</button>
+        </div>
+        
+        <div class="mobile-nav" style="display: none;">
+            <div class="nav-link" style="font-size: 20px; padding: 10px 0;">Курсы</div>
+            <div class="nav-link" style="font-size: 20px; padding: 10px 0;">База знаний</div>
+            <div class="nav-link" style="font-size: 20px; padding: 10px 0;">Подбор курса</div>
+            <div class="btn-secondary" style="padding: 12px; text-align: center; border-radius: 16px;">Войти</div>
+            <div class="btn-primary" style="padding: 12px; text-align: center; border-radius: 16px;">Начать обучение</div>
+        </div>
+    </div>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <div class="container">
+        
+        <!-- ЗАГОЛОВОК -->
+        <div class="page-title">
+            <h1>Подбор программы обучения</h1>
+        </div>
+
+        <!-- РЕЗУЛЬТАТЫ ПОДБОРА -->
+        <div class="results-header">
+            <h2>Подходящие курсы для вас</h2>
+            <div class="results-count">Мы подобрали <span>3 программы</span>, соответствующие вашим критериям</div>
+        </div>
+
+        <!-- СПИСОК КУРСОВ -->
+        <div class="courses-list">
+            
+            <!-- Курс 1: Data Science -->
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-title">Data Science: от основ до машинного обучения</div>
+                    <div class="match-badge">95% совпадение</div>
+                </div>
+                <div class="course-format">Полностью дистанционно</div>
+                <div class="course-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Стоимость</div>
+                        <div class="detail-value">65 000 ₽</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Длительность</div>
+                        <div class="detail-value">8 месяцев</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Рассрочка</div>
+                        <div class="detail-value">5 417 ₽/мес</div>
+                    </div>
+                </div>
+                <div class="course-buttons">
+                    <button class="btn-detail" onclick="location.href='course.html'">Подробнее о курсе</button>
+                    <button class="btn-enroll">Записаться</button>
+                </div>
+            </div>
+
+            <!-- Курс 2: Frontend -->
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-title">Frontend-разработка: React и современный JavaScript</div>
+                    <div class="match-badge">90% совпадение</div>
+                </div>
+                <div class="course-format">Полностью дистанционно</div>
+                <div class="course-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Стоимость</div>
+                        <div class="detail-value">58 000 ₽</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Длительность</div>
+                        <div class="detail-value">6 месяцев</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Рассрочка</div>
+                        <div class="detail-value">4 833 ₽/мес</div>
+                    </div>
+                </div>
+                <div class="course-buttons">
+                    <button class="btn-detail" onclick="location.href='course.html'">Подробнее о курсе</button>
+                    <button class="btn-enroll">Записаться</button>
+                </div>
+            </div>
+
+            <!-- Курс 3: Python для начинающих -->
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-title">Python для начинающих</div>
+                    <div class="match-badge">85% совпадение</div>
+                </div>
+                <div class="course-format">Полностью дистанционно</div>
+                <div class="course-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Стоимость</div>
+                        <div class="detail-value">28 000 ₽</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Длительность</div>
+                        <div class="detail-value">3 месяца</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Рассрочка</div>
+                        <div class="detail-value">2 333 ₽/мес</div>
+                    </div>
+                </div>
+                <div class="course-buttons">
+                    <button class="btn-detail" onclick="location.href='course.html'">Подробнее о курсе</button>
+                    <button class="btn-enroll">Записаться</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- БЛОК КОНСУЛЬТАЦИИ -->
+        <div class="consult-block">
+            <h3>Нужна консультация?</h3>
+            <p>Наши специалисты помогут сделать окончательный выбор и ответят на все вопросы</p>
+            <div class="consult-buttons">
+                <button class="btn-consult">Записаться на консультацию</button>
+                <button class="btn-catalog" onclick="location.href='catalog.html'">Перейти к каталогу</button>
+            </div>
+        </div>
+
+        <!-- КНОПКА НАЧАТЬ ЗАНОВО -->
+        <div style="text-align: center;">
+            <button class="btn-restart">Начать заново</button>
+        </div>
+    </div>
+
+    <!-- ФУТЕР -->
+    <div class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">
+                        <svg width="40" height="40" viewBox="0 0 50 50" fill="none">
+                            <path d="M47.1562 39.9688C47.5533 39.6595 47.8699 39.259 48.0789 38.8012C48.288 38.3434 48.3834 37.8419 48.357 37.3393C48.3306 36.8367 48.1832 36.3479 47.9274 35.9145C47.6715 35.4811 47.3148 35.1159 46.8875 34.85L46.875 16.6562L43.75 18.75V34.8438C43.327 35.1091 42.9738 35.4719 42.7199 35.9018C42.466 36.3318 42.3188 36.8163 42.2906 37.3148C42.2625 37.8133 42.3542 38.3113 42.5581 38.767C42.762 39.2228 43.0721 39.6231 43.4625 39.9344L42.2812 41.5031C41.2307 42.8397 40.6487 44.4845 40.625 46.1844V50.0031H43.1719C43.7837 50.0031 44.378 49.799 44.8608 49.4232C45.3436 49.0473 45.6873 48.5212 45.8375 47.9281L46.8719 43.7531V50.0031H49.9969V46.2219C49.9697 44.5139 49.3836 42.8619 48.3281 41.5187L47.1562 39.9688ZM25 0L0 12.5L25 28.125L50 12.5L25 0Z" fill="#F7FAFF"/>
+                            <path d="M25 31.25L9.375 20.8438V26.1875C9.375 29.0312 18.5625 37.5 25 37.5C31.4375 37.5 40.625 29.0312 40.625 26.1875V20.8438L25 31.25Z" fill="#F7FAFF"/>
+                        </svg>
+                        <span class="footer-logo-text">Академия Знаний</span>
+                    </div>
+                    <p class="footer-desc">Современная образовательная платформа с государственной аккредитацией. Получайте качественное образование 24/7 в удобном формате.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Навигация</h4>
+                    <div class="footer-link" onclick="location.href='catalog.html'">Каталог курсов</div>
+                    <div class="footer-link" onclick="location.href='knowledge.html'">База знаний</div>
+                    <div class="footer-link" onclick="location.href='selection.html'">Подбор программы</div>
+                </div>
+                <div>
+                    <h4 class="footer-title">Контакты</h4>
+                    <div class="footer-contact">📞 +7 (946) 123-45-67</div>
+                    <div class="footer-contact">✉️ AcademyofKnowledge@mail.ru</div>
+                    <div class="footer-contact">📍 г. Самара, Московское шоссе, 125А</div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                © 2026 Академия Знаний. Все права защищены.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Мобильное меню
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        if (mobileBtn) {
+            mobileBtn.addEventListener('click', () => {
+                alert('Мобильное меню — в реальном проекте здесь будет выпадающее меню');
+            });
+        }
+
+        // Обработчики кнопок
+        document.querySelectorAll('.btn-enroll').forEach(btn => {
+            btn.addEventListener('click', () => {
+                alert('Форма записи на курс откроется в новом окне');
+            });
+        });
+
+        document.querySelector('.btn-consult').addEventListener('click', () => {
+            alert('Форма записи на консультацию откроется в новом окне');
+        });
+
+        document.querySelector('.btn-restart').addEventListener('click', () => {
+            alert('В реальном проекте здесь откроется форма с вопросами для подбора программы');
+        });
+    </script>
+</body>
+</html>

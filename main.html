@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Академия Знаний — Образование, доступное 24/7</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: #F7FAFF;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1920px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        @media (min-width: 1920px) {
+            .container {
+                padding: 0 162px;
+            }
+        }
+
+        /* Кнопки */
+        .btn-primary {
+            background: #3B82F6;
+            color: #F0F4FF;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            border: none;
+            font-family: 'Lato', sans-serif;
+            font-weight: 500;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(0deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%), #3B82F6;
+            box-shadow: 0px 4px 12px rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #F7FAFF;
+            color: #3B82F6;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            border: none;
+            font-family: 'Lato', sans-serif;
+            font-weight: 500;
+        }
+        .btn-secondary:hover {
+            background: linear-gradient(0deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.2) 100%), #F7FAFF;
+        }
+
+        /* Карточки с анимацией */
+        .card-hover {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .card-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0px 12px 24px rgba(59, 130, 246, 0.15);
+        }
+        .card-accent {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .card-accent:hover {
+            box-shadow: 0px 10px 20px rgba(59, 130, 246, 0.25);
+        }
+
+        /* НОВОСТНЫЕ КАРТОЧКИ С АНИМАЦИЕЙ */
+        .news-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .news-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0px 20px 30px rgba(59, 130, 246, 0.2);
+        }
+        .news-card:hover .news-image {
+            transform: scale(1.05);
+        }
+        .news-image {
+            transition: transform 0.5s ease;
+            width: 100%;
+            height: 313px;
+            object-fit: cover;
+        }
+        .news-badge {
+            transition: all 0.3s ease;
+        }
+        .news-card:hover .news-badge {
+            transform: translateX(5px);
+            background: #2563eb;
+        }
+        .news-title {
+            transition: color 0.3s ease;
+        }
+        .news-card:hover .news-title {
+            color: #3B82F6;
+        }
+        .news-read-more {
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .news-card:hover .news-read-more {
+            gap: 12px;
+            color: #3B82F6;
+        }
+
+        /* Навигация */
+        .nav-link {
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+        .nav-link:hover {
+            color: #3B82F6 !important;
+        }
+        .nav-link.active {
+            color: #3B82F6 !important;
+            font-weight: 600;
+        }
+
+        /* Мобильное меню */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 30px;
+            cursor: pointer;
+            padding: 10px;
+        }
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px 5%;
+        }
+        .mobile-nav.open {
+            display: flex;
+        }
+
+        /* Слайдер с центрированными стрелками */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+        .slider-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        .slider-slide {
+            flex-shrink: 0;
+            width: 100%;
+        }
+        .slider-slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 56px;
+            height: 56px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .slider-btn:hover {
+            background: #3B82F6;
+            transform: translateY(-50%) scale(1.1);
+        }
+        .slider-btn:hover svg path {
+            fill: white;
+        }
+        .slider-btn:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+        .slider-dot {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .slider-dot:hover {
+            transform: scale(1.2);
+        }
+        .slider-dot.active rect {
+            fill: #3B82F6 !important;
+        }
+
+        /* FAQ аккордеон */
+        .faq-item {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border-radius: 16px;
+            outline: 2px solid #F0F4FF;
+            padding: 20px 25px;
+        }
+        .faq-item:hover {
+            background: #F8FAFF;
+        }
+        .faq-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .accordion-icon {
+            transition: transform 0.3s;
+        }
+        .faq-item.open .accordion-icon {
+            transform: rotate(45deg);
+        }
+        .faq-answer {
+            display: none;
+            padding-top: 20px;
+            font-size: 16px;
+            line-height: 1.4;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 15px;
+            width: 100%;
+        }
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+
+        /* Адаптивные сетки */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 27px;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 27px;
+        }
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        @media (max-width: 1200px) {
+            .grid-3 { grid-template-columns: repeat(2, 1fr); }
+            .news-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .grid-3, .grid-2, .news-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Адаптивные шрифты */
+        @media (max-width: 1200px) {
+            h1 { font-size: 64px !important; }
+            h2 { font-size: 48px !important; }
+            h3 { font-size: 32px !important; }
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 36px !important; }
+            h2 { font-size: 28px !important; }
+            h3 { font-size: 24px !important; }
+        }
+
+        /* Футер */
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr;
+            gap: 40px;
+        }
+        @media (max-width: 992px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+        }
+        .footer-link {
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+        .footer-link:hover {
+            color: #F7FAFF !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- ШАПКА САЙТА -->
+    <div style="background: #F7FAFF; box-shadow: 0 4px 20px rgba(0,0,0,0.02); position: sticky; top: 0; z-index: 1000;">
+        <div class="container" style="padding-top: 20px; padding-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <svg width="40" height="40" viewBox="0 0 50 50" fill="none">
+                    <path d="M47.1562 39.9688C47.5533 39.6595 47.8699 39.259 48.0789 38.8012C48.288 38.3434 48.3834 37.8419 48.357 37.3393C48.3306 36.8367 48.1832 36.3479 47.9274 35.9145C47.6715 35.4811 47.3148 35.1159 46.8875 34.85L46.875 16.6562L43.75 18.75V34.8438C43.327 35.1091 42.9738 35.4719 42.7199 35.9018C42.466 36.3318 42.3188 36.8163 42.2906 37.3148C42.2625 37.8133 42.3542 38.3113 42.5581 38.767C42.762 39.2228 43.0721 39.6231 43.4625 39.9344L42.2812 41.5031C41.2307 42.8397 40.6487 44.4845 40.625 46.1844V50.0031H43.1719C43.7837 50.0031 44.378 49.799 44.8608 49.4232C45.3436 49.0473 45.6873 48.5212 45.8375 47.9281L46.8719 43.7531V50.0031H49.9969V46.2219C49.9697 44.5139 49.3836 42.8619 48.3281 41.5187L47.1562 39.9688ZM25 0L0 12.5L25 28.125L50 12.5L25 0Z" fill="#3B82F6"/>
+                    <path d="M25 31.25L9.375 20.8438V26.1875C9.375 29.0312 18.5625 37.5 25 37.5C31.4375 37.5 40.625 29.0312 40.625 26.1875V20.8438L25 31.25Z" fill="#3B82F6"/>
+                </svg>
+               <a href="main.html" style="text-decoration: none;">
+    <div style="color: #3B82F6; font-size: 18px; font-weight: 500;">Академия Знаний</div>
+</a>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 40px;">
+                <div style="display: flex; gap: 40px;">
+        <a href="page_two.html" class="nav-link" style="color: #1A1F2E; font-size: 18px; text-decoration: none;">Курсы</a>
+        <a href="knowledge.html" class="nav-link" style="color: #1A1F2E; font-size: 18px; text-decoration: none;">База знаний</a>
+        <a href="selection.html" class="nav-link" style="color: #1A1F2E; font-size: 18px; text-decoration: none;">Подбор курса</a>
+    </div>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <div class="btn-secondary" style="padding: 12px 24px; border-radius: 16px; font-size: 16px;">Войти</div>
+                    <div class="btn-primary" style="padding: 12px 24px; border-radius: 16px; font-size: 16px;">Начать обучение</div>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-btn" style="display: none;">☰</button>
+        </div>
+        
+        <div class="mobile-nav" style="display: none;">
+            <div class="nav-link" style="font-size: 20px; padding: 10px 0;">Курсы</div>
+            <div class="nav-link" style="font-size: 20px; padding: 10px 0;">База знаний</div>
+            <div class="nav-link" style="font-size: 20px; padding: 10px 0;">Подбор курса</div>
+            <div class="btn-secondary" style="padding: 12px; text-align: center; border-radius: 16px;">Войти</div>
+            <div class="btn-primary" style="padding: 12px; text-align: center; border-radius: 16px;">Начать обучение</div>
+        </div>
+    </div>
+
+    <!-- HERO БАННЕР С ИСПРАВЛЕННЫМ СЛАЙДЕРОМ (стрелки по центру) -->
+    <div class="container" style="padding-top: 50px; padding-bottom: 77px; text-align: center;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 50px;">
+            <h1 style="color: #1A1F2E; font-size: 96px; font-family: 'Playfair Display', serif; font-weight: 400;">АКАДЕМИЯ ЗНАНИЙ</h1>
+            <div style="width: 80px; height: 80px;">
+                <svg width="80" height="80" viewBox="0 0 100 100">
+                    <path d="M94.3125 79.9375C95.1067 79.3191 95.7397 78.518 96.1578 77.6024C96.5759 76.6868 96.7667 75.6837 96.7139 74.6786C96.6612 73.6734 96.3664 72.6958 95.8547 71.829C95.343 70.9622 94.6296 70.2319 93.775 69.7L93.75 33.3125L87.5 37.5V69.6875C86.6541 70.2182 85.9476 70.9438 85.4398 71.8037C84.932 72.6635 84.6376 73.6325 84.5813 74.6295C84.525 75.6265 84.7084 76.6225 85.1162 77.5341C85.5239 78.4456 86.1442 79.2462 86.925 79.8688L84.5625 83.0063C82.4614 85.6793 81.2974 88.9691 81.25 92.3688V100.006H86.3437C87.5674 100.006 88.7561 99.598 89.7217 98.8463C90.6873 98.0947 91.3746 97.0425 91.675 95.8562L93.7437 87.5063V100.006H99.9937V92.4438C99.9395 89.0278 98.7672 85.7237 96.6563 83.0375L94.3125 79.9375ZM50 0L0 25L50 56.25L100 25L50 0Z" fill="#1A1F2E"/>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Слайдер с красивыми стрелками по центру -->
+        <div class="slider-container">
+            <div class="slider-track" id="sliderTrack">
+                <div class="slider-slide">
+                    <img src="img/образование для всех.png" alt="Образование для всех" style="width: 100%; height: auto; display: block;">
+                </div>
+                <div class="slider-slide">
+                    <img src="img/учись онлайн.png" alt="Учись онлайн 24/7" style="width: 100%; height: auto; display: block;">
+                </div>
+                <div class="slider-slide">
+                    <img src="img/диплом.png" alt="Диплом государственного образца" style="width: 100%; height: auto; display: block;">
+                </div>
+            </div>
+            <div class="slider-btn" id="prevBtn" style="left: 20px;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="slider-btn" id="nextBtn" style="right: 20px;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18L15 12L9 6" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Точки пагинации -->
+        <div style="display: flex; justify-content: center; gap: 15px; margin-top: 34px;">
+            <div class="slider-dot active" data-index="0">
+                <svg width="30" height="30" viewBox="0 0 30 30"><rect width="30" height="30" rx="15" fill="#3B82F6"/></svg>
+            </div>
+            <div class="slider-dot" data-index="1">
+                <svg width="30" height="30" viewBox="0 0 30 30"><rect width="30" height="30" rx="15" fill="#F0F4FF"/></svg>
+            </div>
+            <div class="slider-dot" data-index="2">
+                <svg width="30" height="30" viewBox="0 0 30 30"><rect width="30" height="30" rx="15" fill="#F0F4FF"/></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- ПРЕИМУЩЕСТВА -->
+    <div class="container" style="padding-top: 100px; padding-bottom: 100px;">
+        <h2 style="color: #1A1F2E; font-size: 60px; font-family: 'Playfair Display', serif; margin-bottom: 75px;">Образование, доступное 24/7</h2>
+        <div class="grid-3">
+            <div class="card-hover" style="padding: 40px; background: #F0F4FF; border-radius: 16px;">
+                <h3 style="font-size: 32px; font-family: 'Playfair Display';">Государственная аккредитация</h3>
+                <p style="font-size: 18px; margin-top: 25px;">Дипломы государственного образца, признаваемые по всей России</p>
+            </div>
+            <div class="card-hover" style="padding: 40px; background: #F0F4FF; border-radius: 16px;">
+                <h3 style="font-size: 32px; font-family: 'Playfair Display';">Современная онлайн-платформа</h3>
+                <p style="font-size: 18px; margin-top: 25px;">Удобная платформа для обучения с любого устройства в любое время</p>
+            </div>
+            <div class="card-hover" style="padding: 40px; background: #F0F4FF; border-radius: 16px;">
+                <h3 style="font-size: 32px; font-family: 'Playfair Display';">Практико-ориентированные курсы</h3>
+                <p style="font-size: 18px; margin-top: 25px;">Программы, разработанные с учетом требований работодателей</p>
+            </div>
+            <div class="card-hover" style="padding: 40px; background: #F0F4FF; border-radius: 16px;">
+                <h3 style="font-size: 32px; font-family: 'Playfair Display';">Библиотека материалов</h3>
+                <p style="font-size: 18px; margin-top: 25px;">Пожизненный доступ к учебным материалам после завершения обучения</p>
+            </div>
+            <div class="card-hover" style="padding: 40px; background: #F0F4FF; border-radius: 16px;">
+                <h3 style="font-size: 32px; font-family: 'Playfair Display';">Поддержка кураторов</h3>
+                <p style="font-size: 18px; margin-top: 25px;">Персональное сопровождение на протяжении всего обучения</p>
+            </div>
+            <div class="card-hover" style="padding: 40px; background: #F0F4FF; border-radius: 16px;">
+                <h3 style="font-size: 32px; font-family: 'Playfair Display';">Опытные преподаватели</h3>
+                <p style="font-size: 18px; margin-top: 25px;">Кандидаты и доктора наук, практикующие специалисты</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- НАПРАВЛЕНИЯ ОБУЧЕНИЯ -->
+    <div class="container" style="padding-top: 100px; padding-bottom: 100px;">
+        <h2 style="font-size: 60px; font-family: 'Playfair Display', serif;">Направления обучения</h2>
+        <p style="font-size: 28px; font-family: 'Playfair Display', serif; margin-bottom: 75px;">Выберите программу, которая соответствует вашим целям и амбициям</p>
+        <div class="grid-2">
+            <div class="card-accent" style="background: #F0F4FF; border-radius: 16px; outline: 1px solid #3B82F6; overflow: hidden;">
+                <img src="img/профподготовка.png" alt="Профессиональная переподготовка" style="width: 100%; height: 180px; object-fit: cover;">
+                <div style="padding: 30px;">
+                    <h3 style="font-size: 24px;">Программы профессиональной переподготовки</h3>
+                    <p style="font-size: 16px; margin: 15px 0;">Получите новую специальность за 3-6 месяцев с выдачей диплома государственного образца</p>
+                    <div class="btn-secondary" style="padding: 12px; text-align: center; border-radius: 16px;">Подробнее</div>
+                </div>
+            </div>
+            <div class="card-accent" style="background: #F0F4FF; border-radius: 16px; outline: 1px solid #3B82F6; overflow: hidden;">
+                <img src="img/повышение клалификации.png" alt="Повышение квалификации" style="width: 100%; height: 180px; object-fit: cover;">
+                <div style="padding: 30px;">
+                    <h3 style="font-size: 24px;">Курсы повышения квалификации</h3>
+                    <p style="font-size: 16px; margin: 15px 0;">Актуализируйте знания и получите удостоверение о повышении квалификации</p>
+                    <div class="btn-secondary" style="padding: 12px; text-align: center; border-radius: 16px;">Подробнее</div>
+                </div>
+            </div>
+            <div class="card-accent" style="background: #F0F4FF; border-radius: 16px; outline: 1px solid #3B82F6; overflow: hidden;">
+                <img src="img/высшее образование.png" alt="Высшее образование" style="width: 100%; height: 180px; object-fit: cover;">
+                <div style="padding: 30px;">
+                    <h3 style="font-size: 24px;">Высшее образование</h3>
+                    <p style="font-size: 16px; margin: 15px 0;">Бакалавриат и магистратура по актуальным направлениям подготовки</p>
+                    <div class="btn-secondary" style="padding: 12px; text-align: center; border-radius: 16px;">Подробнее</div>
+                </div>
+            </div>
+            <div class="card-accent" style="background: #F0F4FF; border-radius: 16px; outline: 1px solid #3B82F6; overflow: hidden;">
+                <img src="img/дополнительное образование.png" alt="Дополнительное образование" style="width: 100%; height: 180px; object-fit: cover;">
+                <div style="padding: 30px;">
+                    <h3 style="font-size: 24px;">Дополнительное образование</h3>
+                    <p style="font-size: 16px; margin: 15px 0;">Разнообразные курсы для взрослых и детей по развитию навыков и хобби</p>
+                    <div class="btn-secondary" style="padding: 12px; text-align: center; border-radius: 16px;">Подробнее</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="container" style="padding-top: 100px; padding-bottom: 100px;">
+        <h2 style="font-size: 60px; font-family: 'Playfair Display', serif; margin-bottom: 75px;">Часто задаваемые вопросы</h2>
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+            <div class="faq-item">
+                <div class="faq-header">
+                    <h3 style="font-size: 28px; font-family: 'Playfair Display';">Как начать обучение?</h3>
+                    <svg class="accordion-icon" width="40" height="40" viewBox="0 0 50 50">
+                        <path d="M22.917 27.0834H10.417V22.9167H22.917V10.4167H27.0837V22.9167H39.5837V27.0834H27.0837V39.5834H22.917V27.0834Z" fill="#1A1F2E"/>
+                    </svg>
+                </div>
+                <div class="faq-answer">Для начала обучения необходимо выбрать программу, зарегистрироваться на сайте и оплатить курс. После этого вам откроется доступ к личному кабинету с материалами.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-header">
+                    <h3 style="font-size: 28px; font-family: 'Playfair Display';">Как проходит аттестация?</h3>
+                    <svg class="accordion-icon" width="40" height="40" viewBox="0 0 50 50">
+                        <path d="M22.917 27.0834H10.417V22.9167H22.917V10.4167H27.0837V22.9167H39.5837V27.0834H27.0837V39.5834H22.917V27.0834Z" fill="#1A1F2E"/>
+                    </svg>
+                </div>
+                <div class="faq-answer">Аттестация проводится в формате онлайн-тестирования или итоговой работы. После успешного завершения выдается документ установленного образца.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-header">
+                    <h3 style="font-size: 28px; font-family: 'Playfair Display';">Выдается ли диплом государственного образца?</h3>
+                    <svg class="accordion-icon" width="40" height="40" viewBox="0 0 50 50">
+                        <path d="M22.917 27.0834H10.417V22.9167H22.917V10.4167H27.0837V22.9167H39.5837V27.0834H27.0837V39.5834H22.917V27.0834Z" fill="#1A1F2E"/>
+                    </svg>
+                </div>
+                <div class="faq-answer">Да, все программы имеют государственную аккредитацию, дипломы и удостоверения признаются на территории РФ.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-header">
+                    <h3 style="font-size: 28px; font-family: 'Playfair Display';">Можно ли учиться с мобильного телефона?</h3>
+                    <svg class="accordion-icon" width="40" height="40" viewBox="0 0 50 50">
+                        <path d="M22.917 27.0834H10.417V22.9167H22.917V10.4167H27.0837V22.9167H39.5837V27.0834H27.0837V39.5834H22.917V27.0834Z" fill="#1A1F2E"/>
+                    </svg>
+                </div>
+                <div class="faq-answer">Да, наша платформа адаптирована для мобильных устройств: вы можете смотреть лекции и проходить тесты с телефона или планшета.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- НОВОСТИ И СТАТЬИ С АНИМАЦИЯМИ (переделано по вашему компоненту) -->
+    <div class="container" style="padding-top: 100px; padding-bottom: 100px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; margin-bottom: 75px;">
+            <div>
+                <h2 style="font-size: 60px; font-family: 'Playfair Display', serif;">Новости и статьи</h2>
+                <p style="font-size: 28px; font-family: 'Playfair Display', serif;">Следите за последними новостями института</p>
+            </div>
+            <div class="btn-secondary" style="padding: 12px 30px; border-radius: 16px; outline: 2px solid #F0F4FF; font-size: 18px; cursor: pointer;">Все новости</div>
+        </div>
+        
+        <div class="news-grid">
+            <!-- Новость 1 -->
+            <div class="news-card" style="background:#F7FAFF; border-radius:16px; outline:5px solid #F0F4FF; overflow: hidden;">
+                <img class="news-image" src="img/новости айти.png" alt="Новые программы IT" style="width: 100%; height: 250px; object-fit: cover;">
+                <div style="padding: 25px;">
+                    <div class="news-badge" style="display: inline-block; background: #3B82F6; color: white; padding: 5px 20px; border-radius: 16px; font-size: 14px; margin-bottom: 15px;">Новости</div>
+                    <h3 class="news-title" style="font-size: 24px; margin-bottom: 15px; transition: color 0.3s;">Новые программы повышения квалификации в области IT</h3>
+                    <p style="margin: 15px 0; line-height: 1.5; color: #4a5568;">Мы запустили 5 новых программ для IT-специалистов: Python-разработка, Data Science, Кибербезопасность и другие...</p>
+                    <div class="news-read-more" style="display: flex; align-items: center; gap: 5px; margin-top: 20px; color: #3B82F6; font-weight: 500;">
+                        <span>Читать далее</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
+                    <div style="display: flex; gap: 5px; align-items: center; color: rgba(0,0,0,0.5); margin-top: 20px; padding-top: 15px; border-top: 1px solid #e2e8f0;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        <span>28 марта 2026</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Новость 2 (акцентная с тенью) -->
+            <div class="news-card" style="background:#F7FAFF; border-radius:16px; outline:5px solid #F0F4FF; overflow: hidden; box-shadow: 0px 10px 15px rgba(59, 130, 246, 0.15);">
+                <img class="news-image" src="img/расписание вебинаров.png" alt="Вебинары" style="width: 100%; height: 250px; object-fit: cover;">
+                <div style="padding: 25px;">
+                    <div class="news-badge" style="display: inline-block; background: #3B82F6; color: white; padding: 5px 20px; border-radius: 16px; font-size: 14px; margin-bottom: 15px;">События</div>
+                    <h3 class="news-title" style="font-size: 24px; margin-bottom: 15px; transition: color 0.3s;">Расписание вебинаров на май 2026</h3>
+                    <p style="margin: 15px 0; line-height: 1.5; color: #4a5568;">Приглашаем на бесплатные вебинары для абитуриентов. Узнайте больше о наших программах, задайте вопросы...</p>
+                    <div class="news-read-more" style="display: flex; align-items: center; gap: 5px; margin-top: 20px; color: #3B82F6; font-weight: 500;">
+                        <span>Читать далее</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
+                    <div style="display: flex; gap: 5px; align-items: center; color: rgba(0,0,0,0.5); margin-top: 20px; padding-top: 15px; border-top: 1px solid #e2e8f0;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        <span>20 апреля 2026</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Статья 3 -->
+            <div class="news-card" style="background:#F7FAFF; border-radius:16px; outline:5px solid #F0F4FF; overflow: hidden;">
+                <img class="news-image" src="img/онлайн образование.png" alt="Онлайн образование" style="width: 100%; height: 250px; object-fit: cover;">
+                <div style="padding: 25px;">
+                    <div class="news-badge" style="display: inline-block; background: #3B82F6; color: white; padding: 5px 20px; border-radius: 16px; font-size: 14px; margin-bottom: 15px;">Статьи</div>
+                    <h3 class="news-title" style="font-size: 24px; margin-bottom: 15px; transition: color 0.3s;">Как онлайн-образование меняет карьерные возможности</h3>
+                    <p style="margin: 15px 0; line-height: 1.5; color: #4a5568;">Статья от нашего ректора о том, как дистанционное обучение открывает новые горизонты для профессионального развития...</p>
+                    <div class="news-read-more" style="display: flex; align-items: center; gap: 5px; margin-top: 20px; color: #3B82F6; font-weight: 500;">
+                        <span>Читать далее</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
+                    <div style="display: flex; gap: 5px; align-items: center; color: rgba(0,0,0,0.5); margin-top: 20px; padding-top: 15px; border-top: 1px solid #e2e8f0;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        <span>20 марта 2026</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- КОНТАКТЫ -->
+    <div class="container" style="padding-top: 100px; padding-bottom: 100px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px;">
+            <div>
+                <h2 style="font-size: 60px; font-family: 'Playfair Display', serif; margin-bottom: 30px;">Контакты</h2>
+                <p style="font-size: 24px; margin-bottom: 20px;">443111, г. Самара, Московское шоссе, 125А</p>
+                <div style="margin: 20px 0;">
+                    <span style="color: rgba(0,0,0,0.5); font-size: 20px;">Режим работы</span><br>
+                    Понедельник–пятница с 8:30 до 17:00, перерыв с 13:00 до 13:30
+                </div>
+                <div style="margin: 20px 0;">
+                    <span style="color: rgba(0,0,0,0.5); font-size: 20px;">Email</span><br>
+                    AcademyofKnowledge@mail.ru
+                </div>
+                <div style="margin: 20px 0;">
+                    <span style="color: rgba(0,0,0,0.5); font-size: 20px;">Телефон</span><br>
+                    +7 (946) 123-45-67
+                </div>
+                <div style="margin: 20px 0;">
+                    <span style="color: rgba(0,0,0,0.5); font-size: 20px;">Есть вопросы?</span><br>
+                    За консультацией по образовательным услугам обращаться по телефону:
+                </div>
+                <div class="btn-secondary" style="padding: 15px 40px; background: #F0F4FF; border-radius: 16px; display: inline-block; margin-top: 20px; font-size: 24px;">+7 (946) 123-45-67</div>
+            </div>
+            <div>
+                <!-- Простая вставка через iframe (без API ключа) -->
+<div>
+    <iframe 
+        src="https://yandex.ru/map-widget/v1/?ll=50.100202%2C53.195878&z=15&pt=50.100202,53.195878,pmrdl1"
+        width="100%" 
+        height="400" 
+        frameborder="0"
+        style="border-radius: 16px;"
+        allowfullscreen>
+    </iframe>
+</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ФУТЕР -->
+    <div style="background: #1A1F2E; padding: 60px 0;">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                        <svg width="40" height="40" viewBox="0 0 50 50">
+                            <path d="M47.1562 39.9688C47.5533 39.6595 47.8699 39.259 48.0789 38.8012C48.288 38.3434 48.3834 37.8419 48.357 37.3393C48.3306 36.8367 48.1832 36.3479 47.9274 35.9145C47.6715 35.4811 47.3148 35.1159 46.8875 34.85L46.875 16.6562L43.75 18.75V34.8438C43.327 35.1091 42.9738 35.4719 42.7199 35.9018C42.466 36.3318 42.3188 36.8163 42.2906 37.3148C42.2625 37.8133 42.3542 38.3113 42.5581 38.767C42.762 39.2228 43.0721 39.6231 43.4625 39.9344L42.2812 41.5031C41.2307 42.8397 40.6487 44.4845 40.625 46.1844V50.0031H43.1719C43.7837 50.0031 44.378 49.799 44.8608 49.4232C45.3436 49.0473 45.6873 48.5212 45.8375 47.9281L46.8719 43.7531V50.0031H49.9969V46.2219C49.9697 44.5139 49.3836 42.8619 48.3281 41.5187L47.1562 39.9688ZM25 0L0 12.5L25 28.125L50 12.5L25 0Z" fill="#F7FAFF"/>
+                            <path d="M25 31.25L9.375 20.8438V26.1875C9.375 29.0312 18.5625 37.5 25 37.5C31.4375 37.5 40.625 29.0312 40.625 26.1875V20.8438L25 31.25Z" fill="#F7FAFF"/>
+                        </svg>
+                        <div style="color:#F7FAFF; font-size: 20px;">Академия Знаний</div>
+                    </div>
+                    <p style="color:#F0F4FF;">Современная образовательная платформа с государственной аккредитацией. Получайте качественное образование 24/7 в удобном формате.</p>
+                </div>
+                <div>
+                    <h4 style="color:#F7FAFF; font-size: 24px; margin-bottom: 20px;">Навигация</h4>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="footer-link" style="color: rgba(240,244,255,0.75);">Каталог курсов</div>
+                        <div class="footer-link" style="color: rgba(240,244,255,0.75);">База знаний</div>
+                        <div class="footer-link" style="color: rgba(240,244,255,0.75);">Подбор программы</div>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="color:#F7FAFF; font-size: 24px; margin-bottom: 20px;">Контакты</h4>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="footer-link" style="color: rgba(240,244,255,0.75);">📞 +7 (946) 123-45-67</div>
+                        <div class="footer-link" style="color: rgba(240,244,255,0.75);">✉️ AcademyofKnowledge@mail.ru</div>
+                        <div class="footer-link" style="color: rgba(240,244,255,0.75);">📍 г. Самара, Московское шоссе, 125А</div>
+                    </div>
+                </div>
+            </div>
+            <div style="border-top: 1px solid #F0F4FF; margin: 40px 0 20px;"></div>
+            <div style="color: #F0F4FF; text-align: center;">© 2026 Академия Знаний. Все права защищены.</div>
+        </div>
+    </div>
+
+    <script>
+        // Мобильное меню
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileNav = document.querySelector('.mobile-nav');
+        
+        function checkMobileMenu() {
+            if (window.innerWidth <= 992) {
+                menuBtn.style.display = 'block';
+            } else {
+                menuBtn.style.display = 'none';
+                mobileNav.classList.remove('open');
+            }
+        }
+        
+        if (menuBtn && mobileNav) {
+            checkMobileMenu();
+            menuBtn.addEventListener('click', () => {
+                mobileNav.classList.toggle('open');
+            });
+            window.addEventListener('resize', checkMobileMenu);
+        }
+        
+        // Активная ссылка в навигации
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Слайдер
+        const track = document.getElementById('sliderTrack');
+        const slides = document.querySelectorAll('.slider-slide');
+        const dots = document.querySelectorAll('.slider-dot');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentIndex = 0;
+        let totalSlides = slides.length;
+        
+        function updateSlider() {
+            if (track) track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            dots.forEach((dot, i) => {
+                if (i === currentIndex) dot.classList.add('active');
+                else dot.classList.remove('active');
+            });
+        }
+        
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateSlider();
+        }
+        
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        }
+        
+        if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+        if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+        
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                currentIndex = i;
+                updateSlider();
+            });
+        });
+        
+        // Автопрокрутка слайдера
+        let autoSlide = setInterval(nextSlide, 5000);
+        const sliderContainer = document.querySelector('.slider-container');
+        if (sliderContainer) {
+            sliderContainer.addEventListener('mouseenter', () => clearInterval(autoSlide));
+            sliderContainer.addEventListener('mouseleave', () => {
+                autoSlide = setInterval(nextSlide, 5000);
+            });
+        }
+        
+        // FAQ аккордеон
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('open');
+            });
+        });
+    </script>
+</body>
+</html>
